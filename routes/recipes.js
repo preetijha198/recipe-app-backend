@@ -6,19 +6,7 @@ const Recipe = require('../models/Recipe');
 
 dotenv.config();
 
-router.post('/', async (req, res) => {
-    try {
-      const { title, image, summary, ingredients, instructions, nutrition } = req.body;
-  
-      const newRecipe = new Recipe({ title, image, summary, ingredients, instructions, nutrition });
-      await newRecipe.save();
-  
-      res.status(201).json({ message: "Recipe added successfully", recipe: newRecipe });
-    } catch (error) {
-      res.status(500).json({ message: "Error adding recipe", error });
-    }
-  });
-  
+
 
 // ✅ Get all recipes from MongoDB
 router.get('/', async (req, res) => {
@@ -29,6 +17,21 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Error fetching recipes', error });
   }
 });
+
+
+router.post('/', async (req, res) => {
+  try {
+    const { title, image, summary, ingredients, instructions, nutrition } = req.body;
+
+    const newRecipe = new Recipe({ title, image, summary, ingredients, instructions, nutrition });
+    await newRecipe.save();
+
+    res.status(201).json({ message: "Recipe added successfully", recipe: newRecipe });
+  } catch (error) {
+    res.status(500).json({ message: "Error adding recipe", error });
+  }
+});
+
 
 // 🔍 Search recipes using Spoonacular API
 router.get('/search', async (req, res) => {
